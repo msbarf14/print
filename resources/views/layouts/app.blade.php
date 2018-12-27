@@ -34,7 +34,28 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                    @guest
 
+                    @else
+                    @if (Auth::user()->role == 0)
+                        <li class="nav-item">
+                            <a href="{{route('merchant.index')}}" class="nav-link">Merchant</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('user.index')}}" class="nav-link">User</a>
+                        </li>
+                    @elseif(Auth::user()->role == 1)
+
+                    @elseif(Auth::user()->role == 2)
+
+
+                    @else
+                        
+                    @endif
+
+                    @endguest
+                       
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->

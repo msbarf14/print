@@ -13,7 +13,8 @@ class MerchantController extends Controller
 
     public function index()
     {
-        return view('admin.merchant.index');
+        $merchant = Merchant::all();
+        return view('admin.merchant.index', compact('merchant'));
     }
 
     public function store(Request $request)
@@ -44,37 +45,29 @@ class MerchantController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
-    }
+        $merchant = Merchant::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        // return $merchant;
+        return view("admin.merchant.form", compact('merchant'));
+    }
     public function update(Request $request, $id)
     {
-        //
+        $merchant = Merchant::find($id);
+        
+        $merchant->nama=$request->get('nama');
+        $merchant->tlp=$request->get('tlp');
+        $merchant->alamat=$request->get('alamat');
+        $merchant->deskripsi=$request->get('deskripsi');
+        $merchant->save();
+        return redirect('/merchant');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $merchant = Merchant::find($id);
+        $merchant->delete();
+
+        return redirect()->back();
     }
 }

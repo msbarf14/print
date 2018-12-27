@@ -95,26 +95,35 @@
                 <div class="card-header">PrintStore </div>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="border-radius:0px;">TAMBAH STORE</button>
                 <div class="card-body">
-                    <table id="example" class="table table-striped table-bordered">
+                    <table id="example" class="table table-sm table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>No.Hp</th>
+                                <th>Alamat</th>
+                                <th>Deskripsi</th>
+                                <th>:</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
+                            @foreach ($merchant as $item)
+                                <tr>
+                                    <td>{{$item->nama}}</td>
+                                    <td>{{$item->tlp}}</td>
+                                    <td>{{$item->alamat}}</td>
+                                    <td>{{$item->deskripsi}}</td>
+                                    <td>
+                                        <a href="{{url('merchant/'.$item->id.'/edit')}}">edit</a>
+                                        <form action="{{ route('merchant.destroy', $item->id) }}" method="post" onSubmit="return confirm('Are You Sure To Delete 
+                                            This Item? #{{ $item->name }} ')">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach   
                         </tbody>
                     </table>
                 </div>
