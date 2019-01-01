@@ -15,8 +15,10 @@ class OrderController extends Controller
     }
     public function index()
     {
-        $orders = Order::with('user')->get();
+        // $orders = Order::with('user')->get();
+        $orders = Order::all();
         
+        // return $orders;
         return view('admin.order.index', compact('orders'));
     }
     public function store(Request $request)
@@ -72,5 +74,46 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function postUpload(Request $request){
+        if($request->hasFile('order')){
+            $path = $request->file('order')->getRealPath();
+            $data = \Excel::load($path)->get();
+            if($data->count()){
+ 
+                foreach ($data as $key => $value) {
+                    //print_r($value);
+                    $order[] = [
+                        'name' => $value->name,
+                        'user_id' => $value->user_id,
+                        'marchant_id' => $value->marchant_id,
+                        'doc' => $value->doc,
+                    ];
+                }
+                if(!empty($order)){
+                    Order::insert($order);
+                    \Session::flash('success','File improted successfully.');
+                }
+            }
+        }else{
+        	\Session::flash('warnning','There is no file to import');
+        }
+        return Redirect()->back();
+    }
+
+    public function Export($type){
+        $order = Order::select(
+            'name',
+            'user_id',
+            'marchant_id',
+            'doc'
+        )->get()->toArray();
+        return \Excel::create('order', function($excel) use ($order) {
+            $excel->sheet('order Details', function($sheet) use ($order)
+            {
+                $sheet->fromArray($order);
+            });
+        })->download($type);
     }
 }

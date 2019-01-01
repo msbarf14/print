@@ -6,7 +6,6 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -88,6 +87,8 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
+        <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalImport"> <i class="icon-folder-download"></i> Import</a>
+            <a href="{{ route('order.export',['type'=>'xlsx']) }}" class="btn btn-sm btn-info" > <i class="icon-folder-upload"></i> Export</a>
             <h4 class="header-title">Print Store <button class="btn btn-sm"  data-toggle="modal" data-target="#exampleModal">tambah</button></h4>
             <div class="data-tables datatable-primary">
                 <table id="dataTable2" class="text-center">
@@ -95,37 +96,72 @@
                         <tr>
                             <th>Name</th>
                             <th>No.Hp</th>
-                            <th>Alamat</th>
-                            <th>Deskripsi</th>
+                            <th>Marchant</th>
+                            <th>Doc</th>
                             <th>Action</th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($merchant as $item)
+                       @foreach ($orders as $item)
                         <tr>
                             <td>{{$item->name}}</td>
-                            <td>{{$item->tlp}}</td>
-                            <td>{{$item->alamat}}</td>
-                            <td>{{$item->deskripsi}}</td>
+                            <td>{{$item->user_id}}</td>
+                            <td>{{$item->marchant_id}}</td>
+                            <td>{{$item->doc}}</td>
                             <td>
                                
-                                <form action="{{ route('merchant.destroy', $item->id) }}" method="post" onSubmit="return confirm('Are You Sure To Delete 
+                                <!-- <form action="{{ route('merchant.destroy', $item->id) }}" method="post" onSubmit="return confirm('Are You Sure To Delete 
                                                     This Item? #{{ $item->name }} ')">
                                     @csrf
                                     @method("DELETE")
                                     <a href="{{url('merchant/'.$item->id.'/edit')}}" class="btn btn-sm btn-primary"><i class="ti-pencil"></i></a>
                                     <button class="btn btn-sm float-right"><i class="ti-trash"></i></button>
-                                </form>
+                                </form> -->
                             </td>
                         </tr>
-                        @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal form Upload   -->
+<div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {!! Form::open(array('route' => 'order.import','method'=>'POST','files'=>'true')) !!}
+                    @if (Session::has('success'))
+                        <div class="alert alert-success">{{ Session::get('success') }}</div>
+                    @elseif (Session::has('warnning'))
+                        <div class="alert alert-warnning">{{ Session::get('warnning') }}</div>
+                    @endif
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                                
+                        </div>
+                        <div class="col-sm-6">
+                                {!! Form::label('sample_file','Select File to Import:') !!}
+                            {!! Form::file('order', array('class' => 'form-control')) !!}
+                            {!! $errors->first('order', '<p class="alert alert-danger">:message</p>') !!}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {!! Form::submit('Import',['class'=>'btn btn-success']) !!}
+                    </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('script')
 <!-- Start datatable js -->
