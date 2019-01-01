@@ -23,17 +23,16 @@ class OrderController extends Controller
     }
     public function store(Request $request)
     {
-        
-        $request->validate([
+        request()->validate([
             'name' => 'required',
             'user_id' => 'required',
             'marchant_id' => 'required',
         ]);
-        $orders = [
-            'name' => $request->name,
-            'user_id' => $request->user_id,
-            'marchant_id' => $request->marchant_id
-        ];
+
+        $orders = new Order;
+        $orders->name = request()->input('name');
+        $orders->user_id = request()->input('user_id');
+        $orders->marchant_id = request()->input('marchant_id');
 
         $file = $this->request->file('doc');
         $path = public_path('file');
@@ -42,16 +41,14 @@ class OrderController extends Controller
 
         $file->move($path, $fileName);
         $orders->doc = $url; 
-
-        $save = Order::insert($orders);
-        if ($save) {
+        
+        $orders->save();
+        if ($orders->save()) {
             return redirect()->back();
         }
         else {
             return redirect()->back()->withInput();
         }
-        
-       
     }
 
     public function show($id)

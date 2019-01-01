@@ -57,7 +57,7 @@
                     <label for="deskripsi" class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
 
                     <div class="col-md-6">
-                        <input id="deskripsi" type="file" class="form-controll" name="doc" required>
+                        <input id="deskripsi" type="file" class="form-controll" name="doc">
                     </div>
                 </div>
 
