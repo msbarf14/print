@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use App\User;
 class OrderController extends Controller
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->middleware('auth');
+        $this->request = $request;
+        
     }
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::with('user')->get();
+        
         return view('admin.order.index', compact('orders'));
     }
     public function store(Request $request)
@@ -20,23 +24,22 @@ class OrderController extends Controller
         
         $request->validate([
             'name' => 'required',
-            'tlp' => 'required',
             'user_id' => 'required',
             'marchant_id' => 'required',
         ]);
         $orders = [
-            'name' => $request->nama,
-            'tlp' => $request->tlp,
+            'name' => $request->name,
             'user_id' => $request->user_id,
             'marchant_id' => $request->marchant_id
         ];
 
-        $file = $this->request->file('file');
+        $file = $this->request->file('doc');
         $path = public_path('file');
         $fileName = uniqid(). $file->getClientOriginalName();
-        $url = url('file', $fileName);
+        $url = url('doc', $fileName);
+
         $file->move($path, $fileName);
-        $orders->file = $url; 
+        $orders->doc = $url; 
 
         $save = Order::insert($orders);
         if ($save) {

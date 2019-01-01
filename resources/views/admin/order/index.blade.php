@@ -12,61 +12,53 @@
           </button>
         </div>
         <div class="modal-body">
-            <form method="POST" action="{{ route('merchant.store') }}">
+            <form method="POST" action="{{ route('order.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nama Store') }}</label>
+                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('File Name') }}</label>
 
                     <div class="col-md-6">
-                        <input id="name" type="text" class="form-control{{ $errors->has('nama') ? ' is-invalid' : '' }}" name="nama" value="{{ old('nama') }}" required autofocus>
+                        <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('nama') }}" required autofocus>
 
-                        @if ($errors->has('nama'))
+                        @if ($errors->has('name'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('nama') }}</strong>
+                                <strong>{{ $errors->first('name') }}</strong>
                             </span>
                         @endif
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="tlp" class="col-md-4 col-form-label text-md-right">{{ __('No. Tlp') }}</label>
+                    <label for="user_id" class="col-md-4 col-form-label text-md-right">{{ __('User') }}</label>
 
                     <div class="col-md-6">
-                        <input id="tlp" type="text" class="form-control{{ $errors->has('tlp') ? ' is-invalid' : '' }}" name="tlp" value="{{ old('tlp') }}" required>
-
-                        @if ($errors->has('tlp'))
+                        <input id="user_id" type="text" class="form-control{{ $errors->has('user_id') ? ' is-invalid' : '' }}" name="user_id" value="{{Auth::user()->id}}" required>
+                        @if ($errors->has('user_id'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('tlp') }}</strong>
+                                <strong>{{ $errors->first('user_id') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="user_id" class="col-md-4 col-form-label text-md-right">{{ __('Merchant Store') }}</label>
+
+                    <div class="col-md-6">
+                        <input id="marchant_id" type="text" class="form-control{{ $errors->has('marchant_id') ? ' is-invalid' : '' }}" name="marchant_id" required>
+                        @if ($errors->has('marchant_id'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('marchant_id') }}</strong>
                             </span>
                         @endif
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="alamat" class="col-md-4 col-form-label text-md-right">{{ __('Alamat') }}</label>
+                    <label for="deskripsi" class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
 
                     <div class="col-md-6">
-                        <input id="alamat" type="text" class="form-control{{ $errors->has('alamat') ? ' is-invalid' : '' }}" name="alamat" required>
-
-                        @if ($errors->has('alamat'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('alamat') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="deskripsi" class="col-md-4 col-form-label text-md-right">{{ __('Deskripsi') }}</label>
-
-                    <div class="col-md-6">
-                        <input id="deskripsi" type="text" class="form-control {{ $errors->has('deskripsi') ? ' is-invalid' : '' }}" name="deskripsi" required>
-                        @if ($errors->has('deskripsi'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('deskripsi') }}</strong>
-                        </span>
-                    @endif
+                        <input id="deskripsi" type="file" class="form-controll" name="doc" required>
                     </div>
                 </div>
 
@@ -83,6 +75,16 @@
     </div>
   </div>
   <br>
+
+  @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="container">
     <div class="card">
         <div class="card-body">
@@ -102,7 +104,7 @@
                     <tbody>
                         {{-- @foreach ($merchant as $item)
                         <tr>
-                            <td>{{$item->nama}}</td>
+                            <td>{{$item->name}}</td>
                             <td>{{$item->tlp}}</td>
                             <td>{{$item->alamat}}</td>
                             <td>{{$item->deskripsi}}</td>

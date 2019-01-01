@@ -10,10 +10,19 @@ class Order extends Model
 
     protected $fillable = [
         'name',
-        'file',
+        'doc',
         'user_id',
         'marchant_id'
     ];
     
+    protected $appends = [
+        'user_label'
+    ];
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 
+    public function getUserLabelAttribute() {
+        return object_get($this->user, 'name', '-');
+    }
 }
