@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Merchant;
 class HomeController extends Controller
 {
     /**
@@ -24,7 +25,11 @@ class HomeController extends Controller
     public function index()
     {
         if (app('auth')->user()->role == 0) {
-            return view("home");
+            $merchant = Merchant::all()->count();
+            $costumer = User::where('role', 3)->get()->count();
+
+            // return $user;
+            return view("admin.dashboard",compact('merchant', 'costumer'));
         } elseif(app('auth')->user()->role == 1) {
             return "halaman merchant";
         }

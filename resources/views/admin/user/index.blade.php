@@ -1,14 +1,13 @@
-@extends('layouts.app')
+@extends('admin._layout.default')
 
 @section('content')
+<br>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">User</div>
-
                 <div class="card-body">
-                   <table class="table table-sm table-striped">
+                   <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>Nama</th>

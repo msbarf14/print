@@ -14,8 +14,6 @@ class Order extends Model
         'user_id',
         'marchant_id'
     ];
+    
 
-    public function user() {
-        return $this
-    }
 }

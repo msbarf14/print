@@ -1,11 +1,10 @@
-@extends('layouts.app')
+@extends('admin._layout.default')
 
 @section('content')
 <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12 mt-5">
                 <div class="card">
-                    <div class="card-header">PrintStore </div>
                     <div class="card-body">
                             <form method="POST" action="{{ url('/merchant', $merchant->id) }}">
                                     @csrf
