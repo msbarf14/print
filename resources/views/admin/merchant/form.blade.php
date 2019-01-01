@@ -1,5 +1,11 @@
 @extends('admin._layout.default')
-
+@section('breadcumb')
+<h4 class="page-title pull-left">Merchant</h4>
+<ul class="breadcrumbs pull-left">
+    <li><a href="{{url('/dashboard')}}">Home</a></li>
+    <li><span>Edit {{$merchant->nama}}</span></li>
+</ul>
+@endsection
 @section('content')
 <div class="container">
         <div class="row justify-content-center">

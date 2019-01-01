@@ -1,7 +1,16 @@
 @extends('admin._layout.default')
 
-@section('content')
 
+@section('breadcumb')
+<h4 class="page-title pull-left">Merchant</h4>
+<ul class="breadcrumbs pull-left">
+    <li><a href="{{url('/dashboard')}}">Home</a></li>
+    <li><span>merchant</span></li>
+</ul>
+@endsection
+
+
+@section('content')
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

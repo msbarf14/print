@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use App\Order;
 use App\User;
 class OrderController extends Controller
@@ -70,7 +72,15 @@ class OrderController extends Controller
 
     public function destroy($id)
     {
-        //
+        $orders = Order::findOrFail($id);
+        //delete image
+        $filename = basename($orders->doc);
+        $path = public_path('file/' . $filename);
+        @unlink($path);
+
+        $orders->delete();
+
+        return redirect()->back();
     }
 
     public function postUpload(Request $request){
@@ -112,5 +122,10 @@ class OrderController extends Controller
                 $sheet->fromArray($order);
             });
         })->download($type);
+    }
+    public function get_file($filename)
+    {
+            $file_path = storage_path('file') . "/" . $filename;
+            return Response::download($file_path);
     }
 }

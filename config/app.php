@@ -148,6 +148,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        // Goodnesskay\LaravelPdfViewer\LaravelPdfViewerServiceProvider::class,
 
         /*
          * Package Service Providers...

@@ -1,5 +1,12 @@
 @extends('admin._layout.default')
 
+@section('breadcumb')
+<h4 class="page-title pull-left">Order</h4>
+<ul class="breadcrumbs pull-left">
+    <li><a href="{{url('/dashboard')}}">Home</a></li>
+    <li><span>order</span></li>
+</ul>
+@endsection
 @section('content')
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -87,8 +94,6 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-        <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalImport"> <i class="icon-folder-download"></i> Import</a>
-            <a href="{{ route('order.export',['type'=>'xlsx']) }}" class="btn btn-sm btn-info" > <i class="icon-folder-upload"></i> Export</a>
             <h4 class="header-title">Print Store <button class="btn btn-sm"  data-toggle="modal" data-target="#exampleModal">tambah</button></h4>
             <div class="data-tables datatable-primary">
                 <table id="dataTable2" class="text-center">
@@ -110,14 +115,12 @@
                             <td>{{$item->marchant_id}}</td>
                             <td>{{$item->doc}}</td>
                             <td>
-                               
-                                <!-- <form action="{{ route('merchant.destroy', $item->id) }}" method="post" onSubmit="return confirm('Are You Sure To Delete 
+                                 <form action="{{ route('order.destroy', $item->id) }}" method="post" onSubmit="return confirm('Are You Sure To Delete 
                                                     This Item? #{{ $item->name }} ')">
                                     @csrf
                                     @method("DELETE")
-                                    <a href="{{url('merchant/'.$item->id.'/edit')}}" class="btn btn-sm btn-primary"><i class="ti-pencil"></i></a>
                                     <button class="btn btn-sm float-right"><i class="ti-trash"></i></button>
-                                </form> -->
+                                </form>
                             </td>
                         </tr>
                         @endforeach

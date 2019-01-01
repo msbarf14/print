@@ -11,6 +11,7 @@
                     <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
                     <li><a href="{{url('/merchant')}}">Merchant</a></li>
                     <li><a href="{{url('/order')}}">Order</a></li>
+                    <li><a href="{{url('/user')}}">User</a></li>
                 </ul>
             </nav>
         </div>

@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('doc');
             $table->integer('user_id');
             $table->integer('marchant_id');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

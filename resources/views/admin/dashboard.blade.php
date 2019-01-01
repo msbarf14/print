@@ -1,4 +1,9 @@
 @extends('admin._layout.default')
+
+@section('breadcumb')
+<h4 class="page-title pull-left">Dashboard</h4>
+
+@endsection
 @section('content')
 <div class="container">
     <div class="row">
@@ -32,7 +37,7 @@
                         <div class="seo-fact sbg4">
                             <div class="p-4 d-flex justify-content-between align-items-center">
                                 <div class="seofct-icon"><i class="ti-stats-down"></i> Task</div>
-                                <h2>{{$costumer}}</h2>
+                                <h2>{{$order}}</h2>
                             </div>
 
                         </div>
