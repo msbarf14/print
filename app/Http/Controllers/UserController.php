@@ -12,8 +12,10 @@ class UserController extends Controller
     }
     public function index()
     {
-        $user = User::all();
+        $user = User::with('merchant')->get();
         if (app('auth')->user()->role == 0) {
+
+            // return $user;
             return view('admin.user.index', compact('user'));
         } else {
             return 'halaman tidak ditemukan';

@@ -18,6 +18,10 @@ Route::post('/user/{id}', 'UserController@update');
 // order
 Route::resource('/order','OrderController');
 Route::post('/import', 'OrderController@postUpload')->name('order.import');
-Route::get('/export/{type}', 'OrderController@Export')->name('order.export');
-Route::get('get-file/{filename}', ['as' => 'getFile', 'uses' => 'OrderController@get_file']);
+Route::post('/list/{list}', 'OrderController@list');
+Route::post('/proccess/{proccess}', 'OrderController@proccess');
+Route::post('/finish/{finish}', 'OrderController@finish');
+
+// user order
+Route::get('/orderUser/{order}', 'OrderController@order');
 

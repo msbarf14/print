@@ -24,6 +24,24 @@
             <div class="modal-body">
                 <form method="POST" action="{{ route('merchant.store') }}">
                     @csrf
+                    <div class="form-group row">
+                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nama Store') }}</label>
+
+                        <div class="col-md-6">
+                            <select name="user_id" id="user_id" class="form-control">
+                                @foreach ($user as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                                
+                            </select>
+
+                            @if ($errors->has('nama'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('nama') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
 
                     <div class="form-group row">
                         <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nama Store') }}</label>
@@ -98,6 +116,17 @@
 </div>
 <br>
 <div class="container">
+
+    {{-- errot --}}
+  @if ($errors->any())
+  <div class="alert alert-danger">
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+  @endif
     <div class="card">
         <div class="card-body">
             <h4 class="header-title">Print Store <button class="btn btn-sm"  data-toggle="modal" data-target="#exampleModal">tambah</button></h4>

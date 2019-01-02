@@ -21,15 +21,14 @@
                                             <th>File</th>
                                             <th>Progress</th>
                                             <th>Status</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($order as $item)
-                                        @if ($item->marchant->user->id == Auth::user()->id)
+                                        @if ($item->user_id == Auth::user()->id)
                                         <tr>
                                             <td>{{$item->user_label}}</td>
-                                            <td><a href="{{$item->doc}}">{{$item->name}}</a></td>
+                                            <td>{{$item->name}}</td>
                                             
                                             <td>
                                                 <div class="progress" style="height: 8px;">
@@ -88,28 +87,6 @@
                                                     @endif
                                                 </span>
                                             </td>
-                                            <td>
-                                                <div class="btn-group mb-xl-3" role="group" aria-label="Basic example">
-                                                        <form id="listing" action="{{ url('/list', $item->id) }}" method="POST">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-sm btn-warning"><i class=" ti-check-box "></i></button>
-                                                        </form>
-    
-    
-                                                        <form id="proccess" action="{{ url('/proccess', $item->id) }}" method="POST" >
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-sm btn-primary"><i class=" ti-alarm-clock "></i></button>
-                                                        </form>
-    
-    
-                                                        <form id="finish" action="{{ url('/finish', $item->id) }}" method="POST" >
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-sm btn-success"><i class="ti-face-smile"></i></button>
-                                                        </form>
-                                                        
-                                                    </div>
-                                                
-                                            </td>
                                         </tr>
                                         @else
 
@@ -135,3 +112,4 @@
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
 @endsection
+

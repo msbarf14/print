@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Order;
 use App\User;
+use App\Merchant;
 class OrderController extends Controller
 {
     public function __construct(Request $request)
@@ -17,11 +18,19 @@ class OrderController extends Controller
     }
     public function index()
     {
-        // $orders = Order::with('user')->get();
-        $orders = Order::all();
+        if (app('auth')->user()->role == 2) {
+            $order = Order::all();
+            // return $order;
+            return view('user.order.index',compact('order'));
+        } else {
+            $orders = Order::all();
+            $merchant = Merchant::all();
+            
+            // return $orders;
+            return view('admin.order.index', compact('orders', 'merchant'));
+        }
         
-        // return $orders;
-        return view('admin.order.index', compact('orders'));
+       
     }
     public function store(Request $request)
     {
@@ -29,24 +38,37 @@ class OrderController extends Controller
             'name' => 'required',
             'user_id' => 'required',
             'marchant_id' => 'required',
+            'qty' => 'required',
+            'description' => 'required'
         ]);
 
         $orders = new Order;
         $orders->name = request()->input('name');
         $orders->user_id = request()->input('user_id');
         $orders->marchant_id = request()->input('marchant_id');
+        $orders->qty = request()->input('qty');
+        $orders->description = request()->input('description');
 
         $file = $this->request->file('doc');
         $path = public_path('file');
         $fileName = uniqid(). $file->getClientOriginalName();
-        $url = url('doc', $fileName);
+        $url = url('file', $fileName);
 
         $file->move($path, $fileName);
         $orders->doc = $url; 
         
         $orders->save();
         if ($orders->save()) {
-            return redirect()->back();
+            if(app('auth')->user()->role == 0) {
+               
+            }
+            elseif(app('auth')->user()->role == 2){
+                return redirect('/merchant');
+            }
+            else{
+                return "data saved";
+            }
+            
         }
         else {
             return redirect()->back()->withInput();
@@ -123,9 +145,36 @@ class OrderController extends Controller
             });
         })->download($type);
     }
-    public function get_file($filename)
+    public function list($list)
     {
-            $file_path = storage_path('file') . "/" . $filename;
-            return Response::download($file_path);
+        $order = Order::findOrFail($list);
+        $order->status = 1;
+        $order->save();
+
+        return redirect()->back();
     }
+    public function proccess($proccess)
+    {
+        $order = Order::findOrFail($proccess);
+        $order->status = 2;
+        $order->save();
+
+        return redirect()->back();
+    }
+    public function finish($finish)
+    {
+        $order = Order::findOrFail($finish);
+        $order->status = 3;
+        $order->save();
+
+        return redirect()->back();
+    }
+
+    public function order($order) {
+        $order = Merchant::find($order);
+
+        // return $order;
+        return view('user.order.form', compact('order'));
+    }
+
 }

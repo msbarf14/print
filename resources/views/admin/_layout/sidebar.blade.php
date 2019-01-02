@@ -7,12 +7,27 @@
     <div class="main-menu">
         <div class="menu-inner">
             <nav>
-                <ul class="metismenu" id="menu">
-                    <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                    <li><a href="{{url('/merchant')}}">Merchant</a></li>
-                    <li><a href="{{url('/order')}}">Order</a></li>
-                    <li><a href="{{url('/user')}}">User</a></li>
-                </ul>
+                @if (Auth::user()->role == 0)
+                    <ul class="metismenu" id="menu">
+                        <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                        <li><a href="{{url('/merchant')}}">Merchant</a></li>
+                        <li><a href="{{url('/order')}}">Order</a></li>
+                        <li><a href="{{url('/user')}}">User</a></li>
+                    </ul>
+                @elseif(Auth::user()->role == 1)
+                    <ul class="metismenu" id="menu">
+                        <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                        {{-- <li><a href="{{url('/jo')}}">Merchant</a></li> --}}
+                    </ul>
+                @elseif(Auth::user()->role == 2)
+                    <ul class="metismenu" id="menu">
+                        <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                        <li><a href="{{url('/merchant')}}">Merchant</a></li>
+                        <li><a href="{{url('/order')}}">Order</a></li>
+                    </ul>
+                @else
+                @endif
+                
             </nav>
         </div>
     </div>

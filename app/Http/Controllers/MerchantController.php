@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Merchant;
+use App\User;
 class MerchantController extends Controller
 {
     public function __construct()
@@ -13,8 +14,23 @@ class MerchantController extends Controller
 
     public function index()
     {
-        $merchant = Merchant::all();
-        return view('admin.merchant.index', compact('merchant'));
+        if (app('auth')->user()->role == 0) {
+            $merchant = Merchant::all();
+            $user = User::where('role', 1)->get();
+
+            // return $merchant;
+            return view('admin.merchant.index', compact('merchant', 'user'));
+        } 
+        elseif(app('auth')->user()->role == 2){
+            $merchant = Merchant::all();
+
+            return view('user.merchant', compact('merchant'));
+        }
+        else {
+           return view('page.404');
+        }
+        
+       
     }
 
     public function store(Request $request)
@@ -24,12 +40,14 @@ class MerchantController extends Controller
             'tlp' => 'required',
             'alamat' => 'required',
             'deskripsi' => 'required',
+            'user_id' => 'required',
         ]);
         $merchant = [
             'nama' => $request->nama,
             'tlp' => $request->tlp,
             'alamat' => $request->alamat,
-            'deskripsi' => $request->deskripsi
+            'deskripsi' => $request->deskripsi,
+            'user_id' => $request->user_id
         ];
         $save = Merchant::insert($merchant);
         if ($save) {
@@ -47,10 +65,16 @@ class MerchantController extends Controller
 
     public function edit($id)
     {
-        $merchant = Merchant::find($id);
+        if (app('user')->role = 0) {
+            $merchant = Merchant::find($id);
 
-        // return $merchant;
-        return view("admin.merchant.form", compact('merchant'));
+            // return $merchant;
+            return view("admin.merchant.form", compact('merchant'));
+        } else {
+           return view('page.404');            
+        }
+        
+     
     }
     public function update(Request $request, $id)
     {
@@ -70,4 +94,6 @@ class MerchantController extends Controller
 
         return redirect()->back();
     }
+
+  
 }

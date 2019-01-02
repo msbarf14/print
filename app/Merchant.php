@@ -12,6 +12,19 @@ class Merchant extends Model
         'nama',
         'tlp',
         'alamat',
-        'deskripsi'
+        'deskripsi',
+        'user_id'
     ];
+
+    protected $appends = [
+        'user_label'
+    ];
+    
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getUserLabelAttribute() {
+        return object_get($this->user, 'name', '-');
+    }
 }
